@@ -38,7 +38,7 @@ Usage
 License and Author
 ==================
 
-Author:: Joe Fitzgerald (Twitter: <@joefitzgerald>)
+Author:: Joe Fitzgerald (Twitter: @joefitzgerald)
 
 Copyright:: 2012 Joe Fitzgerald
 
