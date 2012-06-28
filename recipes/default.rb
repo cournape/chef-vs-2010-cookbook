@@ -1,0 +1,43 @@
+#
+# Author:: Joe Fitzgerald (<joe.fitzgerald@emc.com>)
+# Cookbook Name:: vs-2010
+# Recipe:: default
+#
+# Copyright 2012, EMC Corporation
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+# Validate That ISOs Are Available In Specified Locations
+
+# Unzip VS 2010 ISO To Staging Folder
+
+windows_batch "unzip_vs2010" do
+  code <<-EOH
+  PsExec.exe 7z.exe x #{node['vs-2010']['base-iso-location']} -oC:\\source -r -y
+  xcopy C:\\source\\ruby-1.8.7-p352-i386-mingw32 C:\\ruby /e /y
+  EOH
+end
+
+# Unzip VS 2010 SP1 To Staging Folder
+
+# Install VS 2010
+#windows_package node['vs-2010']['package_name'] do
+#  source node['vs-2010']['url']
+#  checksum node['vs-2010']['checksum']
+#  options "INSTALLDIR=\"#{node['7-zip']['home']}\""
+#  action :install
+end
+
+# Install VS 2010 SP1
+

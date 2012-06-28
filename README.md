@@ -40,7 +40,7 @@ License and Author
 
 Author:: Joe Fitzgerald (Twitter: @joefitzgerald)
 
-Copyright:: 2012 Joe Fitzgerald
+Copyright:: 2012 EMC Corporation
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
