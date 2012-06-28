@@ -22,9 +22,11 @@
 
 # Unzip VS 2010 ISO To Staging Folder
 
+## Resorting to net use because powershell has a bug preventing correct user switching
 windows_batch "unzip_vs2010" do
   code <<-EOH
-  PsExec.exe 7z.exe x #{node['vs-2010']['base-iso-location']} -oC:\\source -r -y
+  net use #{node['vs-2010']['base-network-location']} /user:#{node['vs-2010']['base-network-username']} #{node['vs-2010']['base-network-password']} 
+  7z.exe x #{node['vs-2010']['base-iso-location']} -o#{node['vs-2010']['base-iso-location']} -r -y
   xcopy C:\\source\\ruby-1.8.7-p352-i386-mingw32 C:\\ruby /e /y
   EOH
 end
