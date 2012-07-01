@@ -18,7 +18,8 @@ Tested on:
 Cookbooks
 ---------
 
-<Any Required Cookbooks Here>
+* Windows
+* 7-zip
 
 Resources and Providers
 =======================
@@ -28,12 +29,17 @@ Resources and Providers
 Attributes
 ==========
 
-<Any Attributes Here>
+* node['vs-2010']['base-network-location']    = "\\\\yournetworkserver\\pathtoisos"
+* node['vs-2010']['base-network-username']    = "yourusername"
+* node['vs-2010']['base-network-password']    = "yourpassword"
 
 Usage
 =====
 
-<Usage Here>
+* Download Visual Studio 2010 Ultimate (x86) - DVD: http://msdn.microsoft.com/en-us/subscriptions/json/GetDownloadRequest?brand=MSDN&locale=en-us&fileId=41833&activexDisabled=false
+* Download Visual Studio 2010 SP1 - DVD: https://msdn.microsoft.com/en-us/subscriptions/securejson/GetDownloadRequest?brand=MSDN&locale=en-us&fileId=45796&activexDisabled=false
+* Place the ISOs you downloaded on a network share that is accessible from the computers you wish to install VS 2010 + SP1 on
+* Override the default attributes to match your network environment, ideally using a hostname instead of an IP (see attributes section, above)
 
 License and Author
 ==================
