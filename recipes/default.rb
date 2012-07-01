@@ -29,9 +29,11 @@ windows_batch "mount_vs2010_share" do
   EOH
 end
 
+vs2010_extraction_path = node['vs-2010']['base-extraction-path'].gsub("/", "\\")
+vs2010_iso_location = node['vs-2010']['base-iso-location'].gsub("/", "\\")
 windows_batch "unzip_vs2010" do
   code <<-EOH
-  7z.exe x #{node['vs-2010']['base-iso-location']} -o#{node['vs-2010']['base-extraction-path']} -r -y
+  7z.exe x #{vs2010_iso_location} -o#{vs2010_extraction_path} -r -y
   EOH
 end
 
@@ -42,7 +44,7 @@ windows_batch "unmount_vs2010_share" do
 end
 
 # Copy unattend.ini to VS2010 Folder
-unattendini = File.join(node['vs-2010']['base-extraction-path'], "unattend.ini")
+unattendini = File.join(node['vs-2010']['base-extraction-path'], "unattend.ini").gsub("/", "\\")
 cookbook_file "#{unattendini}" do
   source "unattend.ini"
 end
@@ -64,9 +66,11 @@ windows_batch "mount_vs2010_sp1_share" do
   EOH
 end
 
+vs2010_sp1_extraction_path = node['vs-2010']['sp1-extraction-path'].gsub("/", "\\")
+vs2010_sp1_iso_location = node['vs-2010']['sp1-iso-location'].gsub("/", "\\")
 windows_batch "unzip_vs2010_sp1" do
   code <<-EOH
-  7z.exe x #{node['vs-2010']['sp1-iso-location']} -o#{node['vs-2010']['sp1-extraction-path']} -r -y
+  7z.exe x #{vs2010_sp1_iso_location} -o#{vs2010_sp1_extraction_path} -r -y
   EOH
 end
 
@@ -77,7 +81,7 @@ windows_batch "unmount_vs2010_sp1_share" do
 end
 
 # Install VS 2010
-vs2010setup = File.join(node['vs-2010']['base-extraction-path'], "setup", "setup.exe")
+vs2010setup = File.join(node['vs-2010']['base-extraction-path'], "setup", "setup.exe").gsub("/", "\\")
 Chef::Log.info("Installing Visual Studio 2010: #{vs2010setup}")
 
 windows_package "Microsoft Visual Studio 2010 Ultimate (x86)" do
@@ -101,7 +105,7 @@ windows_package "Microsoft Visual Studio 2010 Documentation" do
 end
 
 # Install VS 2010 SP1
-vs2010sp1setup = File.join(node['vs-2010']['sp1-extraction-path'], "setup.exe")
+vs2010sp1setup = File.join(node['vs-2010']['sp1-extraction-path'], "setup.exe").gsub("/", "\\")
 Chef::Log.info("Installing Visual Studio 2010 SP1: #{vs2010sp1setup}")
 
 windows_reboot 60 do
