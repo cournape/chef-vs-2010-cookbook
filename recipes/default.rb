@@ -29,11 +29,12 @@ windows_batch "mount_vs2010_share" do
   EOH
 end
 
+zippath = File.join(node['7-zip']['home'], "7z.exe").gsub("/", "\\")
 vs2010_extraction_path = node['vs-2010']['base-extraction-path'].gsub("/", "\\")
 vs2010_iso_location = node['vs-2010']['base-iso-location'].gsub("/", "\\")
 windows_batch "unzip_vs2010" do
   code <<-EOH
-  7z.exe x #{vs2010_iso_location} -o#{vs2010_extraction_path} -r -y
+  #{zippath} x #{vs2010_iso_location} -o#{vs2010_extraction_path} -r -y
   EOH
 end
 
@@ -70,7 +71,7 @@ vs2010_sp1_extraction_path = node['vs-2010']['sp1-extraction-path'].gsub("/", "\
 vs2010_sp1_iso_location = node['vs-2010']['sp1-iso-location'].gsub("/", "\\")
 windows_batch "unzip_vs2010_sp1" do
   code <<-EOH
-  7z.exe x #{vs2010_sp1_iso_location} -o#{vs2010_sp1_extraction_path} -r -y
+  #{zippath} x #{vs2010_sp1_iso_location} -o#{vs2010_sp1_extraction_path} -r -y
   EOH
 end
 
@@ -84,7 +85,7 @@ end
 vs2010setup = File.join(node['vs-2010']['base-extraction-path'], "setup", "setup.exe").gsub("/", "\\")
 Chef::Log.info("Installing Visual Studio 2010: #{vs2010setup}")
 
-windows_package "Microsoft Visual Studio 2010 Ultimate (x86)" do
+windows_package "#{node['vs-2010']['base-display-name'] }" do
   source "#{vs2010setup}"
   options "/q /norestart /unattendfile \"#{unattendini}\""
   installer_type :custom
@@ -97,12 +98,12 @@ Chef::Log.info("Help Viewer Location: #{node['vs-2010']['helpviewer-location']}"
 Chef::Log.info("Source Media: #{node['vs-2010']['helpviewer-content']}")
 Chef::Log.info("Content Path: #{node['vs-2010']['helpviewer-content-path']}")
 
-windows_package "Microsoft Visual Studio 2010 Documentation" do
-  source "#{node['vs-2010']['helpviewer-location']}"
-  options "/silent /product VS /version 100 /locale en-US /content \"#{node['vs-2010']['helpviewer-content-path']}\" /sourceMedia \"#{node['vs-2010']['helpviewer-content']}\""
-  installer_type :custom
-  action :install
-end
+#windows_package "Microsoft Visual Studio 2010 Documentation" do
+#  source "#{node['vs-2010']['helpviewer-location']}"
+#  options "/silent /product VS /version 100 /locale en-US /content \"#{node['vs-2010']['helpviewer-content-path']}\" /sourceMedia \"#{node['vs-2010']['helpviewer-content']}\""
+#  installer_type :custom
+#  action :install
+#end
 
 # Install VS 2010 SP1
 vs2010sp1setup = File.join(node['vs-2010']['sp1-extraction-path'], "setup.exe").gsub("/", "\\")
@@ -113,7 +114,7 @@ windows_reboot 60 do
   action :nothing
 end
 
-windows_package "Microsoft Visual Studio 2010 SP1" do
+windows_package "#{node['vs-2010']['sp1-display-name']}" do
   source "#{vs2010sp1setup}"
   options "/q /norestart"
   installer_type :custom
